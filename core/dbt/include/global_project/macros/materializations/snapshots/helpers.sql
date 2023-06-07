@@ -173,6 +173,7 @@
 
     {% set select = snapshot_staging_table(strategy, sql, target_relation) %}
 
+    {{ log("\nSNAPSHOT_TEMP_TABLE_START\n" ~ temp_relation.identifier ~ "\ncreate or replace temporary table " ~ temp_relation ~ "\nas (\n" ~ select ~ "\n);\nSNAPSHOT_TEMP_TABLE_END\n", info=True) }}
     {% call statement('build_snapshot_staging_relation') %}
         {{ create_table_as(True, temp_relation, select) }}
     {% endcall %}
